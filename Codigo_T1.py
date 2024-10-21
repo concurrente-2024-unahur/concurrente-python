@@ -17,22 +17,20 @@ def loguear_jugador(id_jugador):
     # Simular una pequeña espera aleatoria antes de acceder a la sección crítica
     # Adquirir el semáforo antes de acceder a la sección crítica
     semaforo.acquire()
-    try:
-        # Incrementar el contador de hilos activos
-        with lock:
-            hilos_activos += 1
-            print(f"Jugador {id_jugador} logueado en el servidor. Hilos activos: {hilos_activos}\n")
-        
-        # Simular el tiempo de permanencia en el servidor
-        time.sleep(2)
-        
-        print(f"Jugador {id_jugador} desconectado del servidor.\n")
-    finally:
-        # Decrementar el contador de hilos activos y liberar el semáforo
-        with lock:
-            hilos_activos -= 1
-            print(f"Hilos activos: {hilos_activos}\n")
-        semaforo.release()
+    # Incrementar el contador de hilos activos
+    with lock:
+        hilos_activos += 1
+        print(f"Jugador {id_jugador} logueado en el servidor. Hilos activos: {hilos_activos}\n")
+    
+    # Simular el tiempo de permanencia en el servidor
+    time.sleep(2)
+    
+    print(f"Jugador {id_jugador} desconectado del servidor.\n")
+    # Decrementar el contador de hilos activos y liberar el semáforo
+    with lock:
+        hilos_activos -= 1
+        print(f"Hilos activos: {hilos_activos}\n")
+    semaforo.release()
 
 # Crear y arrancar varios jugadores simulando el acceso al servidor
 jugadores = []
